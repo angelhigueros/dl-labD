@@ -22,40 +22,57 @@ def analizar(archivo, yalex):
             bool, expres = deteccion2(var[1])
 
             if bool == "Corchetes": 
-                print("Expresión regular: ", expres)
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " hay corchetes desbalanceados en la regex")
+                print("\n[ERROR]")
+                print("r: ", expres)
+                print("Linea: ", data.count('\n', 0, data.find(expres)))
+                print("Error: Corchetes inconsistentes\n")
                 
             
             if bool == "Parent":
-                print("Expresión regular: ", expres)
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " hay paréntesis desbalanceados en la regex")
+                print("\n[ERROR]")
+                print("r: ", expres)
+                print("Linea: ", data.count('\n', 0, data.find(expres)))
+                print("Error: Paréntesis inconsistentes\n")
             
             if bool == "BB":
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " la regex empieza con un * o un +.")
+                print("\n[ERROR]")
+                print("Linea: ", data.count('\n', 0, data.find(expres)) )
+                print("Error: No es posible inciar r con los siguientes simbolos [ *,   +. ]\n")
             
             if bool == "OF":
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " la regex finaliza con un |.")
+                print("Linea: ", data.count('\n', 0, data.find(expres)))
+                print("Error: No es posible terminar r con los siguientes simbolos [  |. ]")
             
 
             bool, expres = deteccion2(var[0])
             
             if bool == "Corchetes":
-                print("Expresión regular: ", expres)
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " hay corchetes desbalanceados en la variable")
+                print("\n[ERROR]")
+                print("r: ", expres)
+                print("Línea: ", data.count('\n', 0, data.find(expres)))
+                print("Error: Corchetes inconsistentes")
             
             if bool == "Parent":
-                print("Expresión regular: ", expres)
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " hay paréntesis desbalanceados en la variable")
+                print("\n[ERROR]")
+                print("r: ", expres)
+                print("Línea: ", data.count('\n', 0, data.find(expres)))
+                print("Error: Paréntesis inconsistentes")
             
             if bool == False: 
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " la variable solo debe tener letras o números")
-            
+                print("\n[ERROR]")
+                print("Línea: ", data.count('\n', 0, data.find(expres)))
+                print("Error: No  se encontraron letras o números en r")
+
             if bool == "BB":
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " la regex empieza con un * o un +.")
-            
+                print("\n[ERROR]")
+                print("Error en la línea: ", data.count('\n', 0, data.find(expres)))
+                print("Error: No es posible inciar r con los siguientes simbolos [ *,   +. ]\n")
+
             if bool == "OF":
-                print("Error en la línea: ", data.count('\n', 0, data.find(expres)), " la regex finaliza con un |.")
-        
+                print("\n[ERROR]")
+                print("Línea: ", data.count('\n', 0, data.find(expres)))
+                print("Error: No es posible terminar r con los siguientes simbolos [  |. ]")
+
         # Jalando los tokens especiales.
         if "rule gettoken =" in data:
             cadena_tokens = data[data.find("rule gettoken ="):]
@@ -91,7 +108,7 @@ def analizar(archivo, yalex):
                 if elemento in operadores:
                     operadores_reservados.append(elemento)
 
-            print("Operadores resrvados: ", operadores_reservados)
+            print("\n[!] Operadores: ", operadores_reservados)
 
             for elemento in operadores_reservados:
                 res_list.remove(elemento)
@@ -128,13 +145,6 @@ def analizar(archivo, yalex):
             new_digitsp = '(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)*'
             new_space = '(_)(_)*'
             new_endline = '(xyz)(xyz)*'
-            """
-                El reemplazo sería:
-                id = (letter(letter|digits|space)*)endline
-                en donde letter se cambia por new1_letters, 
-                digits por new_digitsp, space por new_space,
-                y endline por new_endline.
-            """
 
             tabla['id'] = tabla['id'].replace("letter", new_letters)
             tabla['id'] = tabla['id'].replace("digits", new_digitsp)
@@ -144,10 +154,6 @@ def analizar(archivo, yalex):
         if 'number' in tabla:
             new_digitsp = '(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)*'
             new_signs = "(@|~)"
-            """
-                El reemplazo sería:
-                digits se cambia por new_digitsp.
-            """
 
             tabla['number'] = tabla['number'].replace("digits", new_digitsp)
             tabla['number'] = tabla['number'].replace("sign", new_signs)
@@ -240,7 +246,7 @@ def analizar(archivo, yalex):
                 lista_finales.append(arbol.EstadosAceptAFD)
 
             else: 
-                print("Hubo un error con la regex")
+                print("[ERORR] Regex no valido")
 
 
         expr = "|".join(listaA)
@@ -254,7 +260,7 @@ def analizar(archivo, yalex):
             alf_final = alfabeto(regex_final)
         
         else: 
-            print("Hubo un error con la regex")
+            print("[ERORR] Regex no valido")
 
         new_w = " "
 

@@ -581,7 +581,7 @@ class SintaxT:
         # Colocando el autómta de manera horizontal.
         #grafo.graph_attr['rankdir'] = 'LR'
 
-        grafo.render('AFD_Directo', view=True) # Dibujando el grafo.
+        grafo.render('AFD_Directo', view=False) # Dibujando el grafo.
 
         for estado in self.estadosAFD:
             self.dict[estado] = estado.transitions

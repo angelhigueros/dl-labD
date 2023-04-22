@@ -11,14 +11,14 @@ from yalex.analizador import analizar
 import sys
 
 # Utilidades
-yalex_config = "config/y0.yal"
-txt_test = "test/test0.txt"
+yalex_config = "config/y1.yal"
+txt_test = "test/t1.txt"
 
 
-# analyzw_yalex = Yalex(sys.argv[1])
-# regex = analyzw_yalex.get_regex()
-analizar(txt_test, yalex_config)
-# display_expression_tree(get_tree(infix_postfix(regex)), regex)
+analyzw_yalex = Yalex(sys.argv[1])
+regex = analyzw_yalex.get_regex()
+analizar(sys.argv[1], sys.argv[2] )
+display_expression_tree(get_tree(infix_postfix(regex)), regex)
 
 
 

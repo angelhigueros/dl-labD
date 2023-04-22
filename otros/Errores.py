@@ -7,40 +7,30 @@ def deteccion(regex):
     parent = check_parenthesis(regex)
 
     if not parent:
-        print("Error: La expresión regular no tiene paréntesis consistentes.")
+        print("[Error]: Paréntesis inconsistentes\n")
         return False
 
-    # # Verificando que la expresión tenga paréntesis de apertura y cierre.
-    # if regex.count('(') != regex.count(')'):
-    #     print("Error: La expresión regular no tiene paréntesis de cierre.")
-    #     return False
-    
-    # Verificando que la expresión tenga letras o números.
     coin = re.match(r"[a-zA-Z0-9ε]*", regex)
 
     if not coin:
-        print("Error: La expresión regular no tiene letras o números.")
-        #print("Error: La expresión regular no puede tener números y letras.")
+        print("[Error]:No  se encontraron letras o números en r☻n")
         return False
 
 
-    # Verificando que la expresión no tenga un * o un + al inicio.
     coincidencia = re.match(r"^(?![*+]).*", regex)
 
     if not coincidencia:
-        print("Error: La expresión regular no puede empezar con un * o un +.")
+        print("[Error]: No es posible inciar r con los siguientes simbolos [ *,   +. ] ")
         return False
     
-    # Verificando que la expresión no tenga un | hasta el final.
     coincidencia = re.match(r".*(?<!\|)$", regex)
 
     if not coincidencia:
-        print("Error: La expresión regular no puede tener un | suelto.")
+        print("[Error]: No es posible terminar r con los siguientes simbolos [  | ]")
         return False
 
-    # Si existe un -, no pasa nada.
     if re.search("\-", regex):
-        print("Expresión regular válida.")
+        print("[!] Expresión regular válida")
         return True
 
     return True

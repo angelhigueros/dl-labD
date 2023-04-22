@@ -50,29 +50,18 @@ class SimuladorTxT:
     def simular_cadenas(self, diccionarios, iniciales, finales, resultado=[]): # Simulando las cadenas que vienen en el archivo txt.
 
         if not diccionarios:
-            #print("Resultado: ", resultado)
             return resultado
         
-        # # Detectando los operadores.
-        # if len(caracter_actual) == 1: # Detectando primero su longitud.
-        #     if caracter_actual in self.operadores_reservados: # Detectando si es un operador.
-        #         print("Operador detectado")
-        #         return True, estado_actual
-
-
+        #
         if len(self.cad_s) == 0:
-            # Si ya no quedan más cadenas por simular, se devuelve el resultado.
-            #print("Resultado: ", resultado)
             return resultado
         else:
 
-            #print("Cad_s", self.cad_s)
-
-            # Se toma la primera cadena en la lista de cadenas.
+           
             cadena_actual = self.cad_s.pop(0)
 
-            # Sacando una copia de la cadena.
             cadena_copy = cadena_actual
+            resultado.append(cadena_actual)
 
             #print("Cadena actual: ", cadena_actual)
 
@@ -85,24 +74,13 @@ class SimuladorTxT:
                         cadena_actual = cadena_actual.replace('"', '')
                 
             else: 
-                # Si no es una cadena de texto, se verifica si es una palabra reservada.
                 if cadena_actual in self.reservadas:
-                    # Si la cadena actual es una palabra reservada, se agrega a la lista de resultados.
                     print("Palabra reservada", cadena_actual)
-                    resultado.append(True)
+                    # resultado.append(cadena_actual)
                 
-                # Si la cadena es diferente a un número, entonces no importa.
                 if cadena_actual.isdigit() == False:
                     pass
 
-            # # Detectando los operadores.
-            # if len(cadena_actual) == 1: # Detectando primero su longitud.
-            #     if cadena_actual in self.operadores_reservados: # Detectando si es un operador.
-            #         print("Operador detectado")
-
-            #print("Cadena actual: ", cadena_actual)
-
-            # Se simula la cadena en cada diccionario en la lista de diccionarios.
             valores_cadena = []
             for i in range(len(diccionarios)):
                 diccionario = diccionarios[i]
@@ -113,99 +91,68 @@ class SimuladorTxT:
                 # Detectando los operadores.
                 if len(cadena_actual) == 1:
                     if cadena_actual in self.operadores_reservados: 
-                        #valores_cadena.append(True)
-
-                        # Verificando que se haya llegado al último diccionario.
                         if i == len(diccionarios) - 1:
-                            # Si se llegó al último diccionario, se agrega el valor a la lista de valores de la cadena actual.
-                            valores_cadena.append(True)
+                            pass
 
                     else: 
                         
-                        # Verificando que se haya llegado al último diccionario.
                         if i == len(diccionarios) - 1:
-                            # Si se llegó al último diccionario, se agrega el valor a la lista de valores de la cadena actual.
-                            valores_cadena.append(True)
+                            pass
 
-                # Se simula la cadena en el diccionario actual.
                 for j in range(len(cadena_actual) - 1):
                     caracter_actual = cadena_actual[j]
                     caracter_siguiente = cadena_actual[j+1]
 
-                    #print("Estado actual: ", estado_actual)
-
                     v, estado_actual = self.simular_cadena(diccionario, estado_actual, caracter_actual, caracter_siguiente, estados_acept)
 
-                    # if v == False:
-                    #     valores_cadena.append(v)
-                    #     break
 
                     if j == len(cadena_actual) - 2:
                         valores_cadena.append(v)
             
-            # Si la copia de la cadena tenía "", entonces analizar su lista de valores_cadena.
             if cadena_copy.count('"') == 2:
                 print("Cadena: ", cadena_actual, "resultados: ", valores_cadena)
 
-                # Verificando si hay un true en la lista de valores cadena en la posición 7.
                 if valores_cadena[6] == True:
                     pass
                 else:
                     
                     valores_cadena[7] = False
 
-                    # Buscando el número de línea en donde se encuentra la cadena actual en el archivo.
                     with open(self.archivo, "r") as archivos:
                         for i, linea in enumerate(archivos):
                             if cadena_actual in linea:
                                 print("Sintax error: " + cadena_actual + " line: ", i+1)
                 
 
-            # Se agrega la lista de valores de la cadena actual al resultado.
-            resultado.append(valores_cadena)
+            # resultado.append(valores_cadena)
 
-            #print("Cadena: ", cadena_actual, "resultados: ", valores_cadena)
-
-            # Verificando si hay un true en la lista de valores cadena.
             if True in valores_cadena:
                 pass
             else:
-                # Buscando el número de línea en donde se encuentra la cadena actual en el archivo.
                 with open(self.archivo, "r") as archivos:
                     for i, linea in enumerate(archivos):
                         if cadena_actual in linea:
-                            print("Sintax error: " + cadena_actual + " line: ", i+1)
+                            print("[ERROR]\n")
+                            print("Error: " + cadena_actual )
+                            print("Linea", i+1)
 
             if cadena_actual in self.reservadas:
-                # Si la cadena actual es una palabra reservada, se agrega a la lista de resultados.
-                print("Palabra reservada", cadena_actual)
-                #resultado.append(True)
-                #print("Cadena: ", cadena_actual, "resultados: ", True)
-
-            # Se llama recursivamente a la función con las listas actualizadas.
+                pass
+                # print("[]Palabra reservada", cadena_actual)
             return self.simular_cadenas(diccionarios, iniciales, finales, resultado)
     
     def simular_res(self, diccionarios, iniciales, finales, resultado=[]):
         
         if not diccionarios:
-            #print("Resultado: ", resultado)
             return resultado
 
 
         if len(self.reservadas) == 0:
-            # Si ya no quedan más cadenas por simular, se devuelve el resultado.
-            #print("Resultado: ", resultado)
             return resultado
         else:
 
-            #print("Cad_s", self.cad_s)
-
-            # Se toma la primera cadena en la lista de cadenas.
             cadena_actual = self.reservadas.pop(0)
 
-            #print("Cadena actual: ", cadena_actual)
-
-            # Se simula la cadena en cada diccionario en la lista de diccionarios.
             valores_cadena = []
             for i in range(len(diccionarios)):
                 diccionario = diccionarios[i]
@@ -218,78 +165,43 @@ class SimuladorTxT:
                     caracter_actual = cadena_actual[j]
                     caracter_siguiente = cadena_actual[j+1]
 
-                    #print("Estado actual: ", estado_actual)
-
                     v, estado_actual = self.simular_cadena2(diccionario, estado_actual, caracter_actual, caracter_siguiente, estados_acept)
 
-                    # if v == False:
-                    #     valores_cadena.append(v)
-                    #     break
 
                     if j == len(cadena_actual) - 2:
                         valores_cadena.append(v)
 
-            # Se agrega la lista de valores de la cadena actual al resultado.
             resultado.append(valores_cadena)
 
-            #print("Cadena: ", cadena_actual, "resultados: ", valores_cadena)
 
             if cadena_actual in self.reservadas:
-                # Si la cadena actual es una palabra reservada, se agrega a la lista de resultados.
                 print("Palabra reservada", cadena_actual)
-                #resultado.append(True)
-                #print("Cadena: ", cadena_actual, "resultados: ", True)
-
-            # Se llama recursivamente a la función con las listas actualizadas.
             return self.simular_res(diccionarios, iniciales, finales, resultado)
 
     def simular_cadena(self, diccionario, estado_actual, caracter_actual, caracter_siguiente, estados_acept):
 
-        #print("Caracter: ", caracter_actual)
-
-        #print("Estados de aceptación: ", estados_acept)
 
         transiciones = diccionario[estado_actual]
 
-        #print("Transiciones; ", transiciones)
-
-        # print("Caracter actual: ", caracter_actual)
     
         if caracter_actual in transiciones:
             estado_siguiente = transiciones[caracter_actual]
 
-            #print("Estado siguiente: ", estado_siguiente)
-
             if estado_siguiente in estados_acept:
-                #print("Cadena aceptada.")
                 return True, estado_actual
-            
-            # if estado_actual in estados_acept:
-            #     print("Cadena aceptada.")
-            #     return True, estado_actual
 
             if estado_siguiente == {}:
-
-                #print("Falso en caracter actual", estado_siguiente)
-                # print("Estado actual: ", estado_actual)
-                # print("Estado siguiente: ", estado_siguiente)
 
                 return False, estado_actual
             
             elif estado_siguiente in estados_acept:
-                #print("Cadena aceptada.")
                 return True, estado_actual
         
             else:
 
-                #print("Estado: ",estado_actual, estado_actual in estados_acept)
-
-                # Si el estado siguiente es vacío.
                 return True, estado_siguiente
             
         elif caracter_siguiente in transiciones:
-
-            # Si no hay transición para el caracter actual, pero sí para el siguiente.
             estado_siguiente = transiciones[caracter_siguiente]
 
             if estado_siguiente in estados_acept:
@@ -419,11 +331,11 @@ class SimuladorTxT:
     
     def impresion_txt(self, resultado): # Método para simular los resultados de la simulada de los archivos txt.
         
-        print("Resultados de simular las cadenas del archivo txt: ", resultado)
+        print("[!] Tokens identificados: ", resultado)
 
     def impresion_res(self, resultado): # Método para simular los resultados de la simulada de los archivos txt.
         
-        print("Resultados de simular las cadenas de las palabras reservadas: ", resultado)
+        print("[!] Resultado: ", resultado)
     
 
     # Generando el archivo .py.

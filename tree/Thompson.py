@@ -268,121 +268,12 @@ def alfabeto(regex):
     
     return alfabeto
 
-def graficar(automata, lista, diccionario): #Método para graficar el autómata.
 
-    # Cambiando el título de la ventana.
-    plt.title("Autómata Finito No Determinista - Thompson")
+def graficar(a, l, d):
+    pass
 
-    G = nx.DiGraph() # Creando el grafo.
-
-    #print("Diciconario: " + str(diccionario))
-
-    # Agregando los estados al grafo.
-    for estado in diccionario:
-        G.add_node(estado)
-
-        # Verificando si el estado es inicial o final.
-        if estado == automata.get_estado_inicial():
-            G.nodes[estado]['color'] = 'green'
-        elif estado == automata.get_estado_final():
-            G.nodes[estado]['color'] = 'red'
-        else:
-            G.nodes[estado]['color'] = 'blue'
-
-    # Añadiendo las aristas al grafo.
-    for key, value in diccionario.items():
-        for simbolo, estado in value:
-            for i in lista:
-                G.add_edge(key, estado, label=simbolo)
-
-    
-    # Configurar opciones de visualización
-    pos = nx.spring_layout(G)
-    node_colors = [G.nodes[estado]["color"] for estado in G.nodes()]
-    edge_labels = {(origen, destino): datos["label"] for origen, destino, datos in G.edges(data=True)}
-
-    # Dibujar el grafo
-    nx.draw_networkx_nodes(G, pos, node_color=node_colors)
-    nx.draw_networkx_edges(G, pos)
-    nx.draw_networkx_labels(G, pos)
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
-
-    plt.axis("off")
-    plt.show()
-
-def grafo(automata, lista, diccionario): # Método para graficar el AFN.
-    grafo = gv.Digraph('G', filename='grafo', format='png')
-    
-    grafo.node('title', 'AFN', shape='none')
-
-    estados = [ str(estado) for estado in diccionario.keys() ]
-
-    # Dibujando los nodos.
-    for estado in estados:
-        if estado == str(automata.get_estado_inicial()):
-            grafo.node(estado, estado, color='green')
-        elif estado == str(automata.get_estado_final()):
-            grafo.node(estado, estado, color='red')
-        else:
-            grafo.node(estado, estado, color='blue')
-    
-    # Dibujando las aristas.
-    # print("Estados: " + str(estados))
-
-    # Dibujando las transiciones.
-    for key, value in diccionario.items():
-        for simbolo, estado in value:
-            grafo.edge(str(key), str(estado), label=simbolo)
-
-    # Colocando el autómta de manera horizontal.
-    grafo.graph_attr['rankdir'] = 'LR'
-
-    grafo.render('AFN', view=True)
-
-    # Obteniendo los estados del AFN.
-    estados = list(diccionario.keys())
-
-    # Obteniendo el alfabeto del AFN.
-    alfabeto = set()
-
-    for estado in estados: 
-        for transicion in diccionario[estado]:
-            alfabeto.add(transicion[0])
-    
-    # Creando la tabla de transiciones.
-    tabla = {}
-
-    for estado in estados: 
-        tabla[estado] = {}
-        for simbolo in alfabeto:
-            tabla[estado][simbolo] = set()
-
-            for transicion in diccionario[estado]:
-                if transicion[0] == simbolo:
-                    tabla[estado][simbolo].add(transicion[1])
-            if not tabla[estado][simbolo]:
-                tabla[estado][simbolo] = None
-            
-    # # Imprimiendo las transiciones.
-    # print("Tabla de transiciones del AFN: ")
-    # print("Estado | ", end="")
-
-    # for simbolo in sorted(alfabeto):
-    #     print(simbolo, end=" | ")
-
-    # print()
-    # print("-" * (8 + 4 * len(alfabeto)))
-
-    # for estado in estados: 
-    #     print(f"{estado}".ljust(7), end="| ")
-    #     for simbolo in sorted(alfabeto):
-    #         if tabla[estado][simbolo] is None:
-    #             print("".ljust(3), end="| ")
-    #         else: 
-    #           print(",".join(str(x) for x in tabla[estado][simbolo]).ljust(3), end=" | ")
-
-    #     print()
-
+def grafo(a, l, d):
+    pass
 
 def simular(automata, diccionario): # Método para simular el AFN.
     print("Simulación del AFN")
